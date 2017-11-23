@@ -1,0 +1,21 @@
+{
+    "log_filename":"log.txt",
+    "projects":{
+        "test":{
+            "folders":[
+                {
+                    "src":"D:/Documents/python/11/Самостоятельная работа/task_11_05_03/code",
+                    "dest":"D:/Documents/python/11/Самостоятельная работа/task_11_05_03/test"
+                },
+                {
+                    "src":"D:/Documents/python/11/Самостоятельная работа/task_11_05_02/code",
+                    "dest":"D:/Documents/python/11/Самостоятельная работа/task_11_05_03/test"
+                }
+            ],
+            "options":{
+                "confirm":false,
+                "datetime_min": "30.05.2017 18:15:00"
+            }
+        }
+    }
+}

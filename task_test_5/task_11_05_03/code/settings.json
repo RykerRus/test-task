@@ -1,0 +1,21 @@
+{
+    "log_filename":"log.txt",
+    "projects":{
+                "test":{
+                        "folders":
+                                  [{"src": "D:/papka/KP_2017/KP_2017/task_11_05_03/code/test1/",
+                                    "dest": "D:/papka/KP_2017/KP_2017/task_11_05_03/code/test2"}],
+                        "options":
+                                  {"confirm":false,
+                                   "datetime_min": "11.11.2017 18:15:00"}
+                        },
+                "KP_2017":
+                          {"folders":
+                                     [{"src": "D:/papka/KP_2017/KP_2017/task_11_05_03",
+                                       "dest": "G:/KP_2017"}],
+                           "options":
+                                     {"confirm":false,
+                                      "datetime_min": "30.05.2017 18:15:00"}}
+
+                }
+}
