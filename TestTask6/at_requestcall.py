@@ -25,5 +25,5 @@ for initial in config['Obasic']['browser_initial'].split(' '):
     test_text = Actions.find(driver, ("xpath", xpath))
     text = OT_callback['text_success']
     assert "Ошибка отправки сообщения." == test_text[0].text, text
-print(config)
-driver.close()
+    print(config)
+    driver.close()
