@@ -20,10 +20,9 @@ for initial in config['Obasic']['browser_initial'].split(' '):
     Actions.find_and_input(form, OT_callback['FI_calback_tel'].split(' '))
     elem = Actions.find(form, OT_callback['FI_calback_tel'].split(' ')[:2])
     Actions.input(elem, "RETURN", flag_Keys=True)
-    sleep(2)
+    sleep(4)
     xpath = """//*[@id="comp_5b946bbcf949afa8a21bda31e7bfe743"]/div/div[2]"""
     test_text = Actions.find(driver, ("xpath", xpath))
-    text = OT_callback['text_success']
-    assert "Ошибка отправки сообщения." == test_text[0].text, text
-    print(config)
+    text = "Ошибка подтверждения отправки сообщения"
+    assert OT_callback['text_success'] == test_text[0].text, text
     driver.close()
