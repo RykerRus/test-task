@@ -1,25 +1,28 @@
+from browser import I_browser
 from selenium.webdriver.common.keys import Keys
-import settings
-from browser import browser
 from time import sleep
+import actions
 
-for initial in settings.browserinitial.split(' '):
-    predriver = browser(initial, settings.link, settings.title,
-                        settings.height, settings.width)
-    predriver.browserstart()
-    driver = predriver.driver
-    elem = driver.find_element_by_class_name(settings.class_callBack)
+config = I_browser.load_config('config_local.ini')
+OT_callback = config['OTcallback']
+for initial in config['Obasic']['browser_initial'].split(' '):
+
+    predriver = I_browser(initial,
+                          config['Obrowser']['height'],
+                          config['Obrowser']['width'])
+    driver = predriver.browserstart()
+    driver = actions.get(driver,
+                         OT_callback['main_link'],
+                         OT_callback['main_title'])
+    elem = actions.find(driver, OT_callback['F_EP_callback'].split(' '))
     elem.click()
-    form_callback = driver.find_element_by_name(settings.form_name)
-    # form_callback = driver.switch_to.alert
-    elem = form_callback.find_element_by_name(settings.name_name)
-    elem.send_keys(settings.input_name)
-    elem = form_callback.find_element_by_name(settings.name_tel)
-    elem.send_keys(settings.input_tel)
-    elem.send_keys(Keys.RETURN)
+    form = actions.find(driver, OT_callback['F_F_callback'].split(' '))
+    actions.find_and_input(form, OT_callback['FI_callback_name'].split(' '))
+    actions.find_and_input(form, OT_callback['FI_calback_tel'].split(''))
+    actions.input(form, Keys.RETURN)
     sleep(2)
-    xpath = """//*[@id="comp_5b946bbcf949afa8a21bda31e7bfe743"]/div/div[2]"""
-    test_text = driver.find_elements_by_xpath(xpath)
-    text_a = "заявка не отправлена"
-    assert "Ваше сообщение успешно отправлено." == test_text[0].text, text_a
+    actions.find(driver, OT_callback['xpath_success'].split[''])
+    text = OT_callback['text_success']
+    assert "Ваше сообщение успешно отправлено." == test_text[0].text, text
+print(predriver)
 driver.close()

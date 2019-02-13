@@ -1,25 +1,19 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import configparser
 
 
-class browser(object):
+class I_browser(object):
 
-    def __init__(self, initial, link, title, height=None, width=None):
-        self.title = title
+    def __init__(self, initial, height=None, width=None):
         self.width = width
         self.height = height
-        self.link = link
         self.initial = initial
-        self.driver = None
 
     def __str__(self):
-        return ("title: {}\nwidth: {}\nheight: {}\n"
-                "link: {}\ninitial: {}\ndriver: {}".format(self.title,
-                                                           self.width,
-                                                           self.height,
-                                                           self.link,
-                                                           self.initial,
-                                                           self.driver))
+        return ("width: {}\nheight: {}\ninitial: {}".format(self.width,
+                                                            self.height,
+                                                            self.initial))
 
     def browserstart(self):
         if self.initial == "c":
@@ -35,14 +29,14 @@ class browser(object):
             chrome_options = Options()
             chrome_options.add_argument("--window-size={},{}".format(
                                         self.width, self.height))
-            self.driver = webdriver.Chrome(chrome_options=chrome_options)
-            self.driver.implicitly_wait(4)
-            self.driver.get(self.link)
-            if self.title is not None:
-                assert self.title in self.driver.title
+            driver = webdriver.Chrome(chrome_options=chrome_options)
+            driver.implicitly_wait(4)
+            return driver
         else:
-            self.driver = webdriver.Chrome()
-            self.driver.implicitly_wait(4)
-            self.driver.get(self.link)
-            if self.title is not None:
-                assert self.title in self.driver.title
+            driver = webdriver.Chrome()
+            driver.implicitly_wait(4)
+            return driver
+
+        @classmethod
+        def load_config(cls, file_path):
+            return configparser.ConfigParser().read(file_path)
