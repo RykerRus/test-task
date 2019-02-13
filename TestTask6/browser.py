@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import configparser
 
 
 class I_browser(object):
@@ -9,6 +8,7 @@ class I_browser(object):
         self.width = width
         self.height = height
         self.initial = initial
+        self.driver = None
 
     def __str__(self):
         return ("width: {}\nheight: {}\ninitial: {}".format(self.width,
@@ -30,13 +30,16 @@ class I_browser(object):
             chrome_options.add_argument("--window-size={},{}".format(
                                         self.width, self.height))
             driver = webdriver.Chrome(chrome_options=chrome_options)
-            driver.implicitly_wait(4)
-            return driver
+            self.driver = driver
         else:
             driver = webdriver.Chrome()
-            driver.implicitly_wait(4)
-            return driver
+            self.driver = driver
 
-        @classmethod
-        def load_config(cls, file_path):
-            return configparser.ConfigParser().read(file_path)
+
+"""
+    @classmethod
+    def load_config(cls, file_path):
+        config = configparser.ConfigParser().read(file_path)
+        print(config, "brows")
+        return config.read(file_path)
+"""

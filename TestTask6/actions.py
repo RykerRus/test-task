@@ -1,12 +1,14 @@
-# from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
-class actions(object):
+class Actions(object):
     @classmethod
     def get(cls, driver, link, title=None):
+        assert driver is not None, "Ошибка запуска браузера"
+        driver.implicitly_wait(4)
+        driver.get(link)
         if title is not None:
-            assert title in driver.title
-        return driver.get(link)
+            assert title in driver.title, "Ошибка проверки названия страници"
 
     @classmethod
     def find(cls, driver, name_and_value_seacrh):
@@ -19,14 +21,19 @@ class actions(object):
             return driver.find_elements_by_xpath(search_value)
 
     @classmethod
-    def input(cls, driver, value, flag_clear=None):
+    def input(cls, driver, value, flag_clear=None, flag_Keys=None):
+        print(driver, value, flag_clear, flag_Keys)
         if flag_clear is not None:
             driver.clear()
+        if flag_Keys is True:
+            if value == "RETURN":
+                driver.send_keys(Keys.RETURN)
+                return
         driver.send_keys(value)
 
     @classmethod
     def find_and_input(cls, driver, E_name_S_value_I_value,
                        flag_clear=None):
         element_name, search_value, value_input = E_name_S_value_I_value
-        cls.find(driver, element_name, search_value)
-        cls.input(driver, value_input, flag_clear)
+        elem = cls.find(driver, (element_name, search_value))
+        cls.input(elem, value_input, flag_clear)

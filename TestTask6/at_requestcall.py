@@ -1,28 +1,29 @@
 from browser import I_browser
-from selenium.webdriver.common.keys import Keys
 from time import sleep
-import actions
+from actions import Actions
+import configparser
 
-config = I_browser.load_config('config_local.ini')
+config = configparser.ConfigParser()
+config.read('config_local.ini', 'utf-8')
 OT_callback = config['OTcallback']
 for initial in config['Obasic']['browser_initial'].split(' '):
-
     predriver = I_browser(initial,
                           config['Obrowser']['height'],
                           config['Obrowser']['width'])
-    driver = predriver.browserstart()
-    driver = actions.get(driver,
-                         OT_callback['main_link'],
-                         OT_callback['main_title'])
-    elem = actions.find(driver, OT_callback['F_EP_callback'].split(' '))
+    predriver.browserstart()
+    driver = predriver.driver
+    Actions.get(driver, OT_callback['main_link'], OT_callback['main_title'])
+    elem = Actions.find(driver, OT_callback['F_EP_callback'].split(' '))
     elem.click()
-    form = actions.find(driver, OT_callback['F_F_callback'].split(' '))
-    actions.find_and_input(form, OT_callback['FI_callback_name'].split(' '))
-    actions.find_and_input(form, OT_callback['FI_calback_tel'].split(''))
-    actions.input(form, Keys.RETURN)
+    form = Actions.find(driver, OT_callback['F_F_callback'].split(' '))
+    Actions.find_and_input(form, OT_callback['FI_callback_name'].split(' '))
+    Actions.find_and_input(form, OT_callback['FI_calback_tel'].split(' '))
+    elem = Actions.find(form, OT_callback['FI_calback_tel'].split(' ')[:2])
+    Actions.input(elem, "RETURN", flag_Keys=True)
     sleep(2)
-    actions.find(driver, OT_callback['xpath_success'].split[''])
+    xpath = """//*[@id="comp_5b946bbcf949afa8a21bda31e7bfe743"]/div/div[2]"""
+    test_text = Actions.find(driver, ("xpath", xpath))
     text = OT_callback['text_success']
-    assert "Ваше сообщение успешно отправлено." == test_text[0].text, text
-print(predriver)
+    assert "Ошибка отправки сообщения." == test_text[0].text, text
+print(config)
 driver.close()
